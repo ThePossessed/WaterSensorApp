@@ -1,7 +1,12 @@
 import firebase, { FirebaseOptions, initializeApp } from "firebase/app";
-import { getAuth, initializeAuth } from "firebase/auth";
+import {
+  getAuth,
+  initializeAuth,
+  getReactNativePersistence,
+} from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { Platform } from "react-native";
+import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 
 // Your secondary Firebase project credentials for Android...
 const androidCredentials: FirebaseOptions = {
@@ -29,9 +34,12 @@ var credentials: FirebaseOptions | undefined = Platform.select({
   ios: iosCredentials,
 });
 if (credentials === undefined) {
-  credentials = iosCredentials;
+  credentials = androidCredentials;
 }
 
 export const FIREBASE_APP = initializeApp(credentials);
-export const FIREBASE_AUTH = getAuth(FIREBASE_APP);
+// export const FIREBASE_AUTH = getAuth(FIREBASE_APP);
+export const FIREBASE_AUTH = initializeAuth(FIREBASE_APP, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+});
 export const FIREBASE_DB = getFirestore(FIREBASE_APP);

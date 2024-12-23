@@ -89,6 +89,9 @@ yarn-error.*
 
 # @end expo-cli
 
+# yarn
+.yarn
+
 # secret file
-android/app/google-services.json
+android/**/google-services.json
 ios/GoogleService-Info.plist
